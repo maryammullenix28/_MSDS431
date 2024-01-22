@@ -1,4 +1,4 @@
-# Week 3 Assignment: Testing Go for Statistics (Winter 2024)
+# Testing Go for Statistics (Winter 2024)
 ## Introduction
 This assignment asked students to explore using Go for statistics. The question was framed as managers of a technology startup are keen on limiting the number of computer languages supported by the company. They would like software engineers and data scientists to work together using the same language for backend research and product development. In particular, they want to see employees using Go as their primary programming language. The managers know that Go will serve the company's needs for backend web and database servers. They know that Go is the right language for distributed service offerings on the cloud. But they are concerned that it may be difficult to convince data scientists to use Go rather than Python or R.
 ## Implementation
