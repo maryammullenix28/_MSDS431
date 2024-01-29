@@ -1,0 +1,14 @@
+value       Min.        1st Qu.     Median      Mean        3rd Qu.     Max.        
+            14999.00    119600.00   179700.00   206855.82   264700.00   500001.00   
+income      Min.        1st Qu.     Median      Mean        3rd Qu.     Max.        
+            0.50        2.56        3.53        3.87        4.74        15.00       
+age         Min.        1st Qu.     Median      Mean        3rd Qu.     Max.        
+            1.00        18.00       29.00       28.64       37.00       52.00       
+rooms       Min.        1st Qu.     Median      Mean        3rd Qu.     Max.        
+            2.00        1447.00     2127.00     2635.76     3148.00     39320.00    
+bedrooms    Min.        1st Qu.     Median      Mean        3rd Qu.     Max.        
+            1.00        295.00      435.00      537.90      647.00      6445.00     
+pop         Min.        1st Qu.     Median      Mean        3rd Qu.     Max.        
+            3.00        787.00      1166.00     1425.48     1725.00     35682.00    
+hh          Min.        1st Qu.     Median      Mean        3rd Qu.     Max.        
+            1.00        280.00      409.00      499.54      605.00      6082.00     
