@@ -12,7 +12,7 @@ import (
 func main() {
 	// Specify the input and output file names
 	inputFileName := "/Users/maryammullenix/Documents/GitHub/_MSDS431/assignment_03/housesInput.csv"
-	outputFileName := "summary_statistics.txt"
+	outputFileName := "housesOutputGo.txt"
 
 	// Read the CSV file
 	data, err := readCSV(inputFileName)
