@@ -55,7 +55,7 @@ func main() {
 	}
 
 	fmt.Printf("Data saved to %s\n", filePath)
-	fmt.Println("\nScraping completed\n")
+	fmt.Println("Scraping completed")
 }
 
 func runCollyScraper(url string) WikiPage {
