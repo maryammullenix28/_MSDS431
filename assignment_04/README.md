@@ -35,5 +35,8 @@ Python
 - sys: 1.26 s
 - cpu: 76%
 
+## Testing
+The test written checks that the scraper is correctly limited to the defined allowed domain (en.wikipedia.org) by taking an input of a webpage from de.wikipedia.org.
+
 
 
