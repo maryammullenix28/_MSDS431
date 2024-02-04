@@ -3,45 +3,20 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
-	"path/filepath"
 
 	"github.com/gocolly/colly/v2"
 )
 
-// PageInfo represents information extracted from a webpage
-type PageInfo struct {
+// WikiPage creates a struct representing details of the Wikipedia pages
+type WikiPage struct {
 	URL   string `json:"url"`
 	Title string `json:"title"`
 	Text  string `json:"text"`
 }
 
-// Function to list all files and directories in a given directory
-func listAll(currentDirectory string) {
-	filepath.Walk(currentDirectory, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			fmt.Println(err)
-			return nil
-		}
-		fmt.Println(path)
-		return nil
-	})
-}
-
 func main() {
-	// Make directory for storing complete HTML code for web page
-	pageDirname := "wikipages"
-	if _, err := os.Stat(pageDirname); os.IsNotExist(err) {
-		os.Mkdir(pageDirname, os.ModePerm)
-	}
-
-	// Examine the directory structure
-	currentDirectory, err := os.Getwd()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	listAll(currentDirectory)
 
 	// Visit specified URLs and scrape using colly
 	urls := []string{
@@ -57,56 +32,16 @@ func main() {
 		"https://en.wikipedia.org/wiki/Android_(robot)",
 	}
 
-	var pageData []PageInfo
+	var pageData []WikiPage
 
+	//Loop through Wikipedia pages and append page details to pageData
 	for _, url := range urls {
 		data := runCollyScraper(url)
 		pageData = append(pageData, data)
 	}
 
 	// Save the extracted data to a JSON file
-	saveToJSON(pageData)
-
-	fmt.Println("\nScraping completed\n")
-}
-
-func runCollyScraper(url string) PageInfo {
-	c := colly.NewCollector()
-
-	// Set up callbacks for scraping logic
-	var pageInfo PageInfo
-
-	c.OnHTML("title", func(e *colly.HTMLElement) {
-		pageInfo.Title = e.Text
-	})
-
-	c.OnHTML("body", func(e *colly.HTMLElement) {
-		// Extract text content without HTML markup
-		pageInfo.Text = e.DOM.Find("p").Text() // Example: Extract text only from <p> tags
-	})
-
-	// Set up callback to save HTML to a file
-	c.OnHTML("html", func(e *colly.HTMLElement) {
-		filePath := fmt.Sprintf("wikipages/%s.html", e.Request.URL.Hostname())
-		err := e.Response.Save(filePath)
-		if err != nil {
-			fmt.Println("Error saving HTML:", err)
-		}
-		fmt.Printf("HTML saved to %s\n", filePath)
-	})
-
-	// Start the scraping process
-	err := c.Visit(url)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-
-	pageInfo.URL = url
-	return pageInfo
-}
-
-func saveToJSON(data []PageInfo) {
-	jsonData, err := json.MarshalIndent(data, "", "    ")
+	jsonData, err := json.MarshalIndent(pageData, "", "    ")
 	if err != nil {
 		fmt.Println("Error marshalling to JSON:", err)
 		return
@@ -120,4 +55,36 @@ func saveToJSON(data []PageInfo) {
 	}
 
 	fmt.Printf("Data saved to %s\n", filePath)
+	fmt.Println("\nScraping completed\n")
+}
+
+func runCollyScraper(url string) WikiPage {
+	c := colly.NewCollector(
+		//Visit only domains: en.wikipedia.org
+		colly.AllowedDomains("en.wikipedia.org"),
+	)
+
+	var WikiPage WikiPage
+
+	c.OnRequest(func(r *colly.Request) {
+		log.Println("visiting", r.URL.String())
+	})
+
+	c.OnHTML("title", func(e *colly.HTMLElement) {
+		WikiPage.Title = e.Text
+	})
+
+	c.OnHTML("body", func(e *colly.HTMLElement) {
+		// Extract only <p> text content without HTML markup
+		WikiPage.Text = e.DOM.Find("p").Text()
+	})
+
+	// Start the scraping process
+	err := c.Visit(url)
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	WikiPage.URL = url
+	return WikiPage
 }
