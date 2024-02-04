@@ -20,6 +20,7 @@ This program utilizes the [Colly](https://github.com/gocolly/colly) library to s
 
 ## Memory & Processing Benchmarks
 Benchmarks obtained from the terminal's 'time' function indicates that Go has significantly higher overall CPU usage (350% vs 76%) suggesting that it's better at utilizing multiple CPU cores. 
+
 This can be seen with the difference in real and user time whereby despite the higher 'user' time than 'real' time. This is possible due to the program's efficincy and parallel execution. The Python program on the other hand utilizes only one core (<100%) where the 'real' program runtime is longer, despite a shorter 'user' time.
 
 Go
